@@ -1,5 +1,7 @@
 # Logging::Appenders::Honeybadger
 
+[![CI](https://github.com/sshaw/logging-appenders-honeybadger/actions/workflows/ci.yml/badge.svg)](https://github.com/sshaw/logging-appenders-honeybadger/actions/workflows/ci.yml)
+
 Honeybadger appender for [the Logging gem](https://github.com/TwP/logging)
 
 ## Overview

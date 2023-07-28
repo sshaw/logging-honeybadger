@@ -1,20 +1,24 @@
 # frozen_string_literal: true
 
-require "honeybadger"
 require "logging"
+require "honeybadger"
 
 module Logging
   module Appenders
     def self.honeybadger(*args)
       if args.empty?
-        return self["honeybadger"] || Logging::Appenders::Honeybadger.new
+        return self[Appenders::Honeybadger::DEFAULT_NAME] || Appenders::Honeybadger.new
       end
 
-      Logging::Appenders::Honeybadger.new(*args)
+      Appenders::Honeybadger.new(*args)
     end
 
     class Honeybadger < Logging::Appender
       VERSION = "0.0.1"
+      DEFAULT_NAME = "honeybadger"
+
+      # Prevent infinite recursion if this logger is assigned to the Honeybadger logger and it logs errors
+      INTERNAL_BT_FILTER = %r{honeybadger-[^/]+/lib/honeybadger/}
 
       # Remove calls to this class in the stacktrace sent to Honeybadger.
       # Only used when logging a String message.
@@ -22,32 +26,32 @@ module Logging
 
       # Can't use respond_to?: https://github.com/honeybadger-io/honeybadger-ruby/issues/481
       HONEYBADGER_SIMPLE_OPTIONS = %i[
-      api_key
-      env
-      report_data
-      root
-      revision
-      hostname
-      backend
-      debug
-      send_data_at_exit
-      max_queue_size
-      config_path
-      development_environments
-      plugins
-      skipped_plugins
-    ].freeze
+        api_key
+        env
+        report_data
+        root
+        revision
+        hostname
+        backend
+        debug
+        send_data_at_exit
+        max_queue_size
+        config_path
+        development_environments
+        plugins
+        skipped_plugins
+      ].freeze
 
       HONEYBADGER_NESTED_OPTIONS = %i[
-      breadcrumbs
-      connection
-      delayed_job
-      exceptions
-      logging
-      rails
-      request
-      sidekiq
-    ].freeze
+        breadcrumbs
+        connection
+        delayed_job
+        exceptions
+        logging
+        rails
+        request
+        sidekiq
+      ].freeze
 
       HONEYBADGER_OPTIONS = (HONEYBADGER_SIMPLE_OPTIONS + HONEYBADGER_NESTED_OPTIONS).freeze
 
@@ -56,7 +60,7 @@ module Logging
 
         appender = { :level => :error }
 
-        name = args.first.is_a?(String) ? args.shift : "honeybadger"
+        name = args.first.is_a?(String) ? args.shift : DEFAULT_NAME
         honeybadger = args.last.is_a?(Hash) ? args.pop.dup : {}
 
         ::Honeybadger.configure do |cfg|
@@ -94,8 +98,7 @@ module Logging
       end
 
       def write(event)
-        # FIXME: if the Honeybadger logger is this we must avoid loop
-        #return self if caller.any? { |bt| bt =~ INTERNAL_BT_FILTER }
+        return self if caller.any? { |bt| bt =~ INTERNAL_BT_FILTER }
 
         # Docs say event can be a String too, not sure when/how but we'll check anyways
         error = event.is_a?(Logging::LogEvent) ? event.data : event
