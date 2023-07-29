@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
-require_relative "lib/logging/appenders/honeybadger"
-
 Gem::Specification.new do |spec|
-  spec.name = "logging-appenders-honeybadger"
-  spec.version = Logging::Appenders::Honeybadger::VERSION
+  spec.name = "logging-honeybadger"
+  spec.version = "0.0.1"
   spec.authors = ["Skye Shaw"]
   spec.email = ["skye.shaw@gmail.com"]
 
   spec.summary       = %q{Honeybadger appender for the Logging gem}
   spec.description   = %q{An appender for the Logging gem that sends all messages logged at the :error level to Honeybadger}
-  spec.homepage      = "https://github.com/sshaw/logging-appenders-honeybadger"
+  spec.homepage      = "https://github.com/sshaw/logging-honeybadger"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.4.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/sshaw/logging-appenders-honeybadger"
+  spec.metadata["source_code_uri"] = "https://github.com/sshaw/logging-honeybadger"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
