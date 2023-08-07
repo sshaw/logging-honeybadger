@@ -1,6 +1,10 @@
 # coding: utf-8
 require "minitest/autorun"
 
+# Without this the tests fail, see:
+# https://github.com/honeybadger-io/honeybadger-ruby/issues/485
+ENV["HONEYBADGER_SEND_DATA_AT_EXIT"] = "false"
+
 require "logger"
 require "logging"
 
