@@ -27,7 +27,9 @@ module Logging
       # Can't use respond_to?: https://github.com/honeybadger-io/honeybadger-ruby/issues/481
       HONEYBADGER_SIMPLE_OPTIONS = %i[
         api_key
+        controller
         env
+        error_class
         report_data
         root
         revision
