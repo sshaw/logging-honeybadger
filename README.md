@@ -1,4 +1,4 @@
-# Logging::Appenders::Honeybadger
+# Logging Honeybadger
 
 [![CI](https://github.com/sshaw/logging-honeybadger/actions/workflows/ci.yml/badge.svg)](https://github.com/sshaw/logging-honeybadger/actions/workflows/ci.yml)
 
@@ -7,6 +7,7 @@ Honeybadger appender for [the Logging gem](https://github.com/TwP/logging)
 ## Overview
 
 Install the gem: `gem install logging-honeybadger`.
+
 If you're using Bundler add the following to your `Gemfile`: `gem "logging-honeybadger", :require => false`
 
 Then add the Honeybadger appender:
