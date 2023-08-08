@@ -1,7 +1,9 @@
 require "bundler/gem_tasks"
-require "minitest/test_task"
+# Only with 5.19 and only >= 2.7
+# require "minitest/test_task"
+# Minitest::TestTask.create
+require "rake/testtask"
 
-Minitest::TestTask.create
+Rake::TestTask.new
 
-# I think Minitest::TestTask does this but only certain versions? Was seeing some CI failures without it
 task :default => :test
